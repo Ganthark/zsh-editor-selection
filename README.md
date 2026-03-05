@@ -1,0 +1,103 @@
+# zsh-editor-selection
+
+**A Zsh plugin that brings familiar text-editor selection behaviour to the Zsh Line Editor.**
+
+- 🔡 **Select** by character, word, or visual line using Shift-modified keys
+- 📋 **Copy, cut, and paste** via the system clipboard
+- ✏️ **Type to replace** an active selection
+- ➡️ **Plain cursor movement** deselects automatically
+- 🖥️ Supports **WSL, macOS, and native Linux**
+
+## Key Bindings
+
+| Key                | Action                                 |
+|--------------------|----------------------------------------|
+| `Shift+Right`      | Select character forward               |
+| `Shift+Left`       | Select character backward              |
+| `Shift+Down`       | Select visual line down                |
+| `Shift+Up`         | Select visual line up                  |
+| `Ctrl+Shift+Right` | Select word forward                    |
+| `Ctrl+Shift+Left`  | Select word backward                   |
+| `Ctrl+Shift+Down`  | Select to buffer end                   |
+| `Ctrl+Shift+Up`    | Select to buffer start                 |
+| `Ctrl+Down`        | Jump to buffer end                     |
+| `Ctrl+Up`          | Jump to buffer start                   |
+| `Ctrl+Y`           | Copy selection to clipboard            |
+| `Ctrl+X`           | Cut selection to clipboard             |
+| `Ctrl+V`           | Paste (replaces selection if active)   |
+| `Delete`           | Delete selection or next character     |
+| `Backspace`        | Delete selection or previous character |
+| `Escape`           | Deselect                               |
+
+## Requirements
+
+| Platform | Clipboard tool        |Status      |
+|----------|-----------------------|------------|
+| WSL      | `clip.exe` (built-in) |✅ Tested   |
+| macOS    | `pbcopy` (built-in)   |⚠️ Untested |
+| Linux/X11 | `xclip`              |⚠️ Untested |
+
+*macOS should be tested soon, please feel free to test it on any Linux platforms and report your findings!*
+
+## Installation
+
+### Oh My Zsh
+
+```zsh
+git clone https://github.com/Ganthark/zsh-editor-selection \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-editor-selection
+```
+
+Then add the plugin to your `~/.zshrc`:
+
+```zsh
+plugins=(... zsh-editor-selection)
+```
+
+### Sheldon
+
+```toml
+[plugins.zsh-editor-selection]
+github = "Ganthark/zsh-editor-selection"
+```
+
+### Manual
+
+```zsh
+git clone https://github.com/Ganthark/zsh-editor-selection
+echo "source ~/path/to/zsh-editor-selection/zsh-editor-selection.plugin.zsh" >> ~/.zshrc
+```
+
+---
+
+## Changing key bindings
+
+Escape codes for modifier+arrow keys vary by terminal. The defaults in this plugin target **Windows Terminal**, **iTerm2**, and most modern VTE-based terminals. If a binding doesn't work, find your terminal's code like so:
+
+1. Run `cat` and press Enter
+2. Press `Ctrl+V` then your key combo
+3. Note the printed escape sequence
+4. Override the binding in your `~/.zshrc` **after** sourcing the plugin:
+
+```zsh
+bindkey 'YOUR_SEQUENCE' select-forward-char   # example
+```
+
+---
+
+## Known Limitations
+
+**Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
+
+**Ctrl+C/Ctrl+Shift+C** — on most terminals these keystrokes are intercepted by the terminal before reaching ZLE. `Ctrl+Y` is provided as the copy keybind instead. If your terminal does pass `Ctrl+C/Ctrl+Shift+C` through you can change the binding to your liking following the method described in the [Changing key bindings](#changing-key-bindings) section.
+```
+
+---
+
+## Closing remarks
+
+This is my first zsh plugin and I hope I respected the usual conventions but feel free to contact me if anything is wrong or if you have any remarks/suggestions.  
+
+## Acknowledgements  
+
+A lot of refactor, comments and general help prototyping and debugging was done using Claude Sonnet 4.6 By Anthropic.
