@@ -90,9 +90,6 @@ bindkey 'YOUR_SEQUENCE' select-forward-char   # example
 **Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
 
 **Ctrl+C/Ctrl+Shift+C** — on most terminals these keystrokes are intercepted by the terminal before reaching ZLE. `Ctrl+Y` is provided as the copy keybind instead. If your terminal does pass `Ctrl+C/Ctrl+Shift+C` through you can change the binding to your liking following the method described in the [Changing key bindings](#changing-key-bindings) section.
-```
-
----
 
 ## Closing remarks
 
