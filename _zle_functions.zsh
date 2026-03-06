@@ -14,8 +14,8 @@ zle -A up-line-or-history   _zsel-orig-up-line-or-history
 zle -A down-line-or-history _zsel-orig-down-line-or-history
 zle -A quoted-insert        _zsel-orig-quoted-insert
 zle -A bracketed-paste      _zsel-orig-bracketed-paste
-zle -A self-insert        _zsel-orig-self-insert
-zle -A self-insert-unmeta _zsel-orig-self-insert-unmeta
+zle -A self-insert          _zsel-orig-self-insert
+zle -A self-insert-unmeta   _zsel-orig-self-insert-unmeta
 
 # --- Shared deactivate helper ------------------------------------------------
 _zsel-deactivate() {
@@ -245,18 +245,26 @@ backward-delete-or-selection() {
 zle -N backward-delete-or-selection
 
 # --- Character insert with selection awareness ------------------------------
+# Registered via a one-shot precmd hook so that it runs after all other plugins
+# have loaded
 
 self-insert() {
   (( REGION_ACTIVE )) && _zsel-delete-selection
   zle _zsel-orig-self-insert
 }
-zle -N self-insert
 
 self-insert-unmeta() {
   (( REGION_ACTIVE )) && _zsel-delete-selection
   zle _zsel-orig-self-insert-unmeta
 }
-zle -N self-insert-unmeta
+
+_zsel-bind-self-insert() {
+  zle -N self-insert
+  zle -N self-insert-unmeta
+  add-zsh-hook -d precmd _zsel-bind-self-insert
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _zsel-bind-self-insert
 
 # --- Clipboard provider detection --------------------------------------------
 # Returns one of: wsl | macos | xclip | none
