@@ -8,6 +8,8 @@
 - ➡️ **Plain cursor movement** deselects automatically
 - 🖥️ Supports **WSL, macOS, and native Linux**
 
+![demo](https://github.com/user-attachments/assets/d97bfd76-9abb-4172-b6d2-f681ea82f052)
+
 ## Key Bindings
 
 | Key                | Action                                 |
@@ -98,3 +100,4 @@ This is my first zsh plugin and I hope I respected the usual conventions but fee
 ## Acknowledgements  
 
 A lot of refactor, comments and general help prototyping and debugging was done using Claude Sonnet 4.6 By Anthropic.
+
