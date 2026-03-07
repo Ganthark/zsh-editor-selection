@@ -101,3 +101,4 @@ This is my first zsh plugin and I hope I respected the usual conventions but fee
 
 A lot of refactor, comments and general help prototyping and debugging was done using Claude Sonnet 4.6 By Anthropic.
 
+Demo GIF made using [asciinema](https://asciinema.org/)/[asciinema gif generator](https://github.com/asciinema/agg)
