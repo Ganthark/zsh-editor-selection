@@ -95,6 +95,18 @@ deselect-only() {
 }
 zle -N deselect-only
 
+# --- WSL clipboard helper ---------------------------------------------------
+# clip.exe may not be on PATH in VSCode-launched terminals.
+# Fall back to the known Windows system path.
+
+_zsel-clip-exe() {
+  if command -v clip.exe &>/dev/null; then
+    clip.exe
+  elif [[ -x /mnt/c/Windows/System32/clip.exe ]]; then
+    /mnt/c/Windows/System32/clip.exe
+  fi
+}
+
 # --- Select by visual line (Shift+Up / Shift+Down) --------------------------
 # Builds a table of every visual row's start offset, accounting for both
 # \n-terminated logical lines and long lines that wrap at $COLUMNS.
@@ -293,7 +305,7 @@ copy-selection-to-clipboard() {
   local end=$(( MARK < CURSOR ? CURSOR : MARK ))
   local text="${BUFFER[start+1,end]}"
   case "$(_zsel-clipboard-provider)" in
-    wsl)   printf '%s' "$text" | clip.exe ;;
+    wsl)   printf '%s' "$text" | _zsel-clip-exe ;;
     macos) printf '%s' "$text" | pbcopy ;;
     xclip) printf '%s' "$text" | xclip -selection clipboard ;;
   esac
